@@ -5,7 +5,7 @@ import {Test, console} from "forge-std/Test.sol";
 import {FundMe} from "../../src/FundMe.sol";
 import {DeployFundMe} from "../../script/DeployFundMe.s.sol";
 
-contract FundMeTest is Test{
+contract FundMeTest is Test {
     FundMe fundMe;
 
     address USER = makeAddr("user");
@@ -16,14 +16,14 @@ contract FundMeTest is Test{
     // tests:
     // Unit, Integration, Forking, Staging
 
-    function setUp() external{
+    function setUp() external {
         // fundMe = new FundMe();
         DeployFundMe deployFundMe = new DeployFundMe();
         fundMe = deployFundMe.run();
         vm.deal(USER, STARTING_BALANCE); // give user some eth
     }
 
-    function testMinimumDollarIsFive() public view { 
+    function testMinimumDollarIsFive() public view {
         assertEq(fundMe.MINIMUM_USD(), 5e18);
     }
 
@@ -37,11 +37,11 @@ contract FundMeTest is Test{
     }
 
     function testFundFailsWithoutEnoughEth() public {
-        vm.expectRevert();  // cheatcode, expecting the next line to revert
+        vm.expectRevert(); // cheatcode, expecting the next line to revert
         fundMe.fund();
     }
 
-    modifier funded(){
+    modifier funded() {
         vm.prank(USER);
         fundMe.fund{value: SEND_VALUE}();
         _;
@@ -61,7 +61,7 @@ contract FundMeTest is Test{
         assertEq(funder, USER);
     }
 
-    function testOnlyOwnerCanWithdraw() public funded{
+    function testOnlyOwnerCanWithdraw() public funded {
         vm.prank(USER);
         vm.expectRevert();
         fundMe.withdraw();
@@ -91,7 +91,7 @@ contract FundMeTest is Test{
         uint160 numberOfFunders = 10;
         uint160 startingFunderIndex = 1;
 
-        for (uint160 i = startingFunderIndex; i < numberOfFunders; i++){
+        for (uint160 i = startingFunderIndex; i < numberOfFunders; i++) {
             // vm.prank(address(i)); // address(1) to address(10)
             // fundMe.fund{value: SEND_VALUE}();
             hoax(address(i), SEND_VALUE); // combine prank and deal
@@ -118,7 +118,7 @@ contract FundMeTest is Test{
         uint160 numberOfFunders = 10;
         uint160 startingFunderIndex = 1;
 
-        for (uint160 i = startingFunderIndex; i < numberOfFunders; i++){
+        for (uint160 i = startingFunderIndex; i < numberOfFunders; i++) {
             // vm.prank(address(i)); // address(1) to address(10)
             // fundMe.fund{value: SEND_VALUE}();
             hoax(address(i), SEND_VALUE); // combine prank and deal

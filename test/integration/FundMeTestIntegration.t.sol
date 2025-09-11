@@ -6,7 +6,7 @@ import {FundMe} from "../../src/FundMe.sol";
 import {DeployFundMe} from "../../script/DeployFundMe.s.sol";
 import {FundFundMe, WithdrawFundMe} from "../../script/Interactions.s.sol";
 
-contract InteractionsTest is Test{
+contract InteractionsTest is Test {
     FundMe fundMe;
 
     address USER = makeAddr("user");
@@ -14,7 +14,7 @@ contract InteractionsTest is Test{
     uint256 constant STARTING_BALANCE = 10 ether;
     uint256 constant GAS_PRICE = 1;
 
-    function setUp() external{
+    function setUp() external {
         DeployFundMe deployFundMe = new DeployFundMe();
         fundMe = deployFundMe.run();
         vm.deal(USER, STARTING_BALANCE); // give user some eth
